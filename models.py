@@ -59,7 +59,7 @@ class Artist(db.Model):
 
     @property
     def past_shows(self):
-        return Show.query.filter(
+        return db.session.query(Show).join(Venue).filter(
                 Show.artist_id == self.id, Show.start_time < date.today()
             ).all()
     

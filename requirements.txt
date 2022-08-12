@@ -24,3 +24,5 @@ typing-extensions==4.3.0
 Werkzeug==2.2.2
 WTForms==3.0.1
 zipp==3.8.1
+
+phonenumbers~=8.12.53

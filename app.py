@@ -2,17 +2,15 @@
 # Imports
 #----------------------------------------------------------------------------#
 
-import json
 import dateutil.parser
 import babel
-from flask import Flask, render_template, request, Response, flash, redirect, url_for
+from flask import Flask
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate 
 import logging
 from logging import Formatter, FileHandler
-from flask_wtf import Form
-from forms import *
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -38,6 +36,18 @@ def format_datetime(value, format='medium'):
 
 app.jinja_env.filters['datetime'] = format_datetime
 
+@app.errorhandler(400)
+def bad_request_error(error):
+    return render_template('errors/400.html'), 400
+
+@app.errorhandler(401)
+def unauthorized_error(error):
+    return render_template('errors/401.html'), 401
+
+@app.errorhandler(403)
+def forbidden_error(error):
+    return render_template('errors/403.html'), 403
+
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('errors/404.html'), 404
@@ -61,7 +71,7 @@ if not app.debug:
 # Import routes
 #----------------------------------------------------------------------------#
 from routes import * 
-from seeder import seed_database 
+from seeder import seed_database
 #----------------------------------------------------------------------------#
 # Launch.
 #----------------------------------------------------------------------------#
